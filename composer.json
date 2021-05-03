@@ -1,0 +1,9 @@
+{
+  "name": "casanova/api",
+  "type": "application",
+  "autoload": {
+    "psr-4": {
+      "Casanova\\Api": "src/"
+    }
+  }
+}
