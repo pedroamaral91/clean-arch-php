@@ -5,15 +5,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: casanova/api
-    container_name: casanova-api
+    image: cleanarch/api
+    container_name: clean-arch-api
     tty: true
     restart: unless-stopped
     volumes:
       - ./:/var/www
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    networks: 
-      - casanova-network
+    networks:
+      - clean-arch-network
 
   webserver:
     image: nginx:alpine
@@ -26,9 +26,28 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    networks: 
-      - casanova-network
-    
+    networks:
+      - clean-arch-network
+
+  cleandb:
+    image: postgres:10
+    container_name: cleandb
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "5432:5432"
+    volumes:
+      - cleandata:/var/lib/postgresql/data
+    networks:
+      - clean-arch-network
+    environment:
+      POSTGRES_PASSWORD: root
+
+
 networks:
-  casanova-network:
+  clean-arch-network:
     driver: bridge
+
+volumes:
+  cleandata:
+    driver: local

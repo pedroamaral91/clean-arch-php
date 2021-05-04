@@ -1,9 +1,22 @@
 {
-  "name": "casanova/api",
+  "name": "cleanarch/api",
   "type": "application",
   "autoload": {
     "psr-4": {
-      "Casanova\\Api": "src/"
+      "Clean\\Api\\": "src/"
     }
+  },
+  "autoload-dev": {
+      "psr-4": {
+          "Clean\\Api\\Tests\\": "tests/"
+      }
+  },
+  "require": {
+    "doctrine/orm": "^2.6.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9",
+    "squizlabs/php_codesniffer": "3.*",
+    "php-mock/php-mock": "^2.3"
   }
 }
