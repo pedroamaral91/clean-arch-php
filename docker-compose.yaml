@@ -1,53 +1,52 @@
-version: '3'
+version: "3"
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: cleanarch/api
-    container_name: clean-arch-api
-    tty: true
-    restart: unless-stopped
-    volumes:
-      - ./:/var/www
-      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    networks:
-      - clean-arch-network
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: cleanarch/api
+        container_name: clean-arch-api
+        tty: true
+        restart: unless-stopped
+        volumes:
+            - ./:/var/www
+            - ./config/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - clean-arch-network
 
-  webserver:
-    image: nginx:alpine
-    container_name: webserver
-    restart: unless-stopped
-    tty: true
-    volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - clean-arch-network
+    webserver:
+        image: nginx:alpine
+        container_name: webserver
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./:/var/www
+            - ./config/nginx/conf.d/:/etc/nginx/conf.d/
+        ports:
+            - "80:80"
+            - "443:443"
+        networks:
+            - clean-arch-network
 
-  cleandb:
-    image: postgres:10
-    container_name: cleandb
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "5432:5432"
-    volumes:
-      - cleandata:/var/lib/postgresql/data
-    networks:
-      - clean-arch-network
-    environment:
-      POSTGRES_PASSWORD: root
-
+    cleandb:
+        image: postgres:10
+        container_name: cleandb
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "5432:5432"
+        volumes:
+            - cleandata:/var/lib/postgresql/data
+        networks:
+            - clean-arch-network
+        environment:
+            POSTGRES_PASSWORD: root
 
 networks:
-  clean-arch-network:
-    driver: bridge
+    clean-arch-network:
+        driver: bridge
 
 volumes:
-  cleandata:
-    driver: local
+    cleandata:
+        driver: local
