@@ -16,7 +16,7 @@ final class Email extends ValueObject
         if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
             throw new InvalidArgumentException("email");
         }
-        echo "passou";
+
         $this->value = $email;
     }
 }

@@ -18,12 +18,12 @@ final class LoginServiceTest extends TestCase
         $sut->login = new DbLogin($loadByEmailStub, $hashComparer);
         return $sut;
     }
-    // public function testShouldReturnCustomer(): void
-    // {
-    //     $validEmail = "valid@email.com";
-    //     $password = "password";
-    //     $service = $this->makeSut();
-    //     $customer = $service->login->loadByEmail($validEmail, $password);
-    //     $this->assertEquals($customer->getEmail(), $validEmail);
-    // }
+    public function testShouldReturnCustomer(): void
+    {
+        $validEmail = "valid@email.com";
+        $password = "password";
+        $service = $this->makeSut();
+        $customer = $service->login->loadByEmail($validEmail, $password);
+        $this->assertEquals($customer->getEmail(), $validEmail);
+    }
 }

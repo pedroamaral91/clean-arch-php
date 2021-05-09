@@ -8,7 +8,10 @@ use Clean\Api\App\Contracts\Db\LoadCustomerByEmail;
 use Clean\Api\App\Contracts\Db\LoginService;
 use Clean\Api\App\Contracts\Encrypt\HashComparer;
 use Clean\Api\Domain\Entities\Customer;
+use Clean\Api\Domain\ValueObjects\Birthdate;
+use Clean\Api\Domain\ValueObjects\Cpf;
 use Clean\Api\Domain\ValueObjects\Email;
+use Clean\Api\Domain\ValueObjects\Name;
 
 final class DbLogin implements LoginService
 {
@@ -23,10 +26,13 @@ final class DbLogin implements LoginService
 
     public function loadByEmail(string $email, string $password): Customer
     {
-        $emailObject = new Email($email);
-        $customer = $this->loadCustomer->loadCustomerByEmail($emailObject, $password);
-        if ($this->hashComparer->compare($password, $customer->getPassword())) return null;
 
-        return Customer::withCpfAndEmail($customer->cpf, $customer->email, $customer->name);
+        $customer = $this->loadCustomer->loadCustomerByEmail(new Email($email), $password);
+
+        if (!$this->hashComparer->compare($password, $customer->getPassword())) {
+            return null;
+        }
+
+        return Customer::withNameEmailCpfPassword($customer->getName(), $customer->getEmail(), $customer->getCpf(), $customer->getPassword());
     }
 }

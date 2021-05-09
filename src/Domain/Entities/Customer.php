@@ -12,33 +12,34 @@ final class Customer
 {
     private Cpf $cpf;
     private Email $email;
-    private Birthdate $birthdate;
+    private ?Birthdate $birthdate;
     private Name $name;
-    private Phone $phone;
+    private ?Phone $phone;
     private string $password;
 
-    public static function withCpfAndEmail(Cpf $cpf, Email $email, Name $name)
+    public static function withNameEmailCpfPassword(Name $name, Email $email, Cpf $cpf, string $password): Customer
     {
-        return new Customer($cpf, $email, $name);
+        return new Customer($cpf, $email, $name, $password, null, null);
     }
 
-    public function __construct(Cpf $cpf, Email $email, Name $name)
+    public function __construct(Cpf $cpf, Email $email, Name $name, ?string $password, ?Phone $phone, ?Birthdate $birthdate)
     {
         $this->cpf = $cpf;
         $this->email = $email;
         $this->name = $name;
+        $this->password = $password;
+        $this->phone = $phone;
+        $this->birthdate = $birthdate;
     }
 
     public function setPhone(Phone $phone): Customer
     {
-        $this->phone = $phone;
-        return $this;
+        return new Customer($this->cpf, $this->email, $this->name, $this->password, $phone, $this->birthdate);
     }
 
     public function setBirthdate(Birthdate $birthdate): Customer
     {
-        $this->birthdate = $birthdate;
-        return $this;
+        return new Customer($this->cpf, $this->email, $this->name, $this->password, $this->phone, $birthdate);
     }
 
     public function getName(): string
