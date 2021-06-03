@@ -8,5 +8,5 @@ use Clean\Api\Domain\Entities\Customer;
 
 interface LoginService
 {
-    public function loadByEmail(string $email, string $password): Customer;
+    public function loadByEmail(string $email, string $password): ?Customer;
 }
