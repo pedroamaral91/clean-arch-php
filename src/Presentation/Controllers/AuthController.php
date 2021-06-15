@@ -9,7 +9,6 @@ use Clean\Api\Presentation\Contracts\Controller;
 use Clean\Api\Presentation\Helpers\HttpResponse;
 use Clean\Api\Presentation\Helpers\HttpStatusCode;
 use Clean\Api\Presentation\Validation\Contracts\Validator;
-use Clean\Api\Presentation\Validation\Exceptions\RequiredParamException;
 
 final class AuthController implements Controller
 {
@@ -31,7 +30,8 @@ final class AuthController implements Controller
             return HttpResponse::send(HttpStatusCode::OK, $response);
 
         } catch (\Exception $exception) {
-            return HttpResponse::send($exception->getCode(), $exception->getMessage());
+            $code = $exception->getCode() ?: 500;
+            return HttpResponse::send($code, $exception->getMessage());
         }
     }
 }
