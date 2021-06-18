@@ -7,15 +7,17 @@ pipeline {
         stage("build") {
             steps {
                 echo 'installing deps...'
-                sh 'composer install'
+                script {
+                    docker image pull node:lts
+                }
                 echo 'deps installed!'
+                
             }
         }
 
         stage("test") {
             steps {
-                echo 'testing...'
-                sh 'composer test'
+                echo 'testing...'                
                 echo 'tests done!'
             }
         }
