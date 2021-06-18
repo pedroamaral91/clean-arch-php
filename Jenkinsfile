@@ -8,7 +8,7 @@ pipeline {
             steps {
                 echo 'installing deps...'
                 script {
-                    docker image pull node:lts
+                    sh 'docker image pull node:lts'
                 }
                 echo 'deps installed!'
                 
