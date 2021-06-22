@@ -1,6 +1,7 @@
 {
     "name": "cleanarch/api",
     "type": "application",
+    "description": "Clean architecture application",
     "licence": "MIT",
     "autoload": {
         "psr-4": {
