@@ -24,3 +24,20 @@ jobs:
 
         - name: Install dependencies
           run: composer install --prefer-dist --no-progress
+          
+        - name: Login in ghcr
+          uses: azure/docker-login@v1
+          with:
+            login-server: ghcr.io
+            username: ${{ secrets.GH_USER }}
+            password: ${{ secrets.GH_TOKEN }}
+          
+        - name: Build image
+          run: |
+            docker build -t ghcr.io/pedroamaral91/clean-arch-api:latest -f Dockerfile . 
+            docker tag ghcr.io/pedroamaral91/clean-arch-api:latest ghcr.io/pedroamaral91/clean-arch-api:${{ github.sha }}
+            
+        - name: Push to registry
+          run: |
+            docker push ghcr.io/pedroamaral91/clean-arch-api:latest
+            docker push ghcr.io/pedroamaral91/clean-arch-api:${{ github.sha }}
